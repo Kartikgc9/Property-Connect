@@ -1,0 +1,38 @@
+{
+  "name": "propertyconnect-blockchain",
+  "version": "1.0.0",
+  "description": "Blockchain integration for PropertyConnect",
+  "main": "index.js",
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "migrate:reset": "truffle migrate --reset",
+    "test": "truffle test",
+    "deploy:local": "truffle migrate --network development",
+    "deploy:testnet": "truffle migrate --network testnet",
+    "deploy:mainnet": "truffle migrate --network mainnet",
+    "console": "truffle console",
+    "verify": "truffle run verify"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "dotenv": "^16.3.1",
+    "web3": "^4.2.2"
+  },
+  "devDependencies": {
+    "@truffle/contract": "^4.6.8",
+    "truffle": "^5.8.4",
+    "truffle-assertions": "^0.9.2",
+    "truffle-plugin-verify": "^0.6.3"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "smart-contracts",
+    "real-estate",
+    "property-verification"
+  ],
+  "author": "PropertyConnect Team",
+  "license": "MIT"
+}

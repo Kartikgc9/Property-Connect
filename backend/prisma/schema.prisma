@@ -1,0 +1,239 @@
+// backend/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  phone       String?
+  avatar      String?
+  role        Role     @default(BUYER)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  agent       Agent?
+  buyer       Buyer?
+  messages    Message[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Agent {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  licenseNumber   String   @unique
+  agency          String
+  experience      Int
+  rating          Float    @default(0)
+  reviewCount     Int      @default(0)
+  responseTime    Int      @default(24) // hours
+  bio             String?
+  specialties     String[]
+  serviceAreas    String[]
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  properties      Property[]
+  collaborations  Collaboration[]
+  metrics         AgentMetric[]
+
+  @@map("agents")
+}
+
+model Buyer {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  preferredAreas  String[]
+  budgetMin       Int?
+  budgetMax       Int?
+  propertyTypes   PropertyType[]
+  savedProperties String[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("buyers")
+}
+
+model Property {
+  id                String         @id @default(cuid())
+  title             String
+  description       String
+  type              PropertyType
+  status            PropertyStatus @default(ACTIVE)
+  price             Int
+  currency          String         @default("USD")
+  bedrooms          Int?
+  bathrooms         Int?
+  area              Int
+  areaUnit          String         @default("sqft")
+  address           String
+  city              String
+  state             String
+  zipCode           String
+  country           String         @default("US")
+  coordinates       Json // {lat: number, lng: number}
+  images            String[]
+  virtualTourUrl    String?
+  amenities         String[]
+  yearBuilt         Int?
+  lotSize           Int?
+  isVerified        Boolean        @default(false)
+  blockchainTxHash  String?
+  localInsights     Json? // School ratings, crime rates, etc.
+  aiAnalysis        Json? // AI-generated insights
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  // Relations
+  agentId           String
+  agent             Agent          @relation(fields: [agentId], references: [id])
+  transactions      Transaction[]
+  collaborations    Collaboration[]
+
+  @@map("properties")
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  propertyId      String
+  buyerId         String
+  agentId         String
+  type            TransactionType
+  amount          Int
+  status          TransactionStatus @default(PENDING)
+  contractHash    String?
+  completedAt     DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  property        Property @relation(fields: [propertyId], references: [id])
+  buyer           User     @relation(fields: [buyerId], references: [id])
+
+  @@map("transactions")
+}
+
+model Collaboration {
+  id          String   @id @default(cuid())
+  propertyId  String
+  primaryAgentId String
+  secondaryAgentId String
+  type        CollaborationType
+  splitRatio  Float    @default(0.5)
+  status      CollaborationStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  property      Property @relation(fields: [propertyId], references: [id])
+  primaryAgent  Agent    @relation(fields: [primaryAgentId], references: [id])
+
+  @@map("collaborations")
+}
+
+model Message {
+  id          String      @id @default(cuid())
+  senderId    String
+  receiverId  String?
+  content     String
+  type        MessageType @default(TEXT)
+  isRead      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  // Relations
+  sender      User @relation(fields: [senderId], references: [id])
+
+  @@map("messages")
+}
+
+model AgentMetric {
+  id              String   @id @default(cuid())
+  agentId         String
+  month           Int
+  year            Int
+  propertiesListed Int     @default(0)
+  propertiesSold  Int      @default(0)
+  totalRevenue    Int      @default(0)
+  avgResponseTime Int      @default(0)
+  customerSatisfaction Float @default(0)
+  createdAt       DateTime @default(now())
+
+  // Relations
+  agent           Agent @relation(fields: [agentId], references: [id])
+
+  @@unique([agentId, month, year])
+  @@map("agent_metrics")
+}
+
+enum Role {
+  BUYER
+  AGENT
+  ADMIN
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  CONDO
+  TOWNHOUSE
+  LAND
+  COMMERCIAL
+}
+
+enum PropertyStatus {
+  ACTIVE
+  PENDING
+  SOLD
+  WITHDRAWN
+}
+
+enum TransactionType {
+  SALE
+  RENT
+  LEASE
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
+
+enum CollaborationType {
+  CO_LISTING
+  REFERRAL
+  JOINT_VENTURE
+}
+
+enum CollaborationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  DOCUMENT
+  SYSTEM
+}
