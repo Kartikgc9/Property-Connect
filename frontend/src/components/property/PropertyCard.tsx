@@ -2,11 +2,11 @@ import React from 'react';
 import { Property } from '../../types/property';
 import { MapPin } from 'lucide-react';
 
-interface Props {
+interface PropertyCardProps {
   property: Property;
 }
 
-export const PropertyCard: React.FC<Props> = ({ property }) => {
+export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const mainImage = property.images?.[0] || 'https://via.placeholder.com/400x300?text=No+Image';
 
   const formattedPrice = new Intl.NumberFormat('en-US', {

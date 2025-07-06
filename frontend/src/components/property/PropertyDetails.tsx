@@ -2,11 +2,11 @@ import React from 'react';
 import { Property } from '../../types/property';
 import VirtualTour from './VirtualTour';
 
-interface Props {
+interface PropertyDetailsProps {
   property: Property;
 }
 
-export const PropertyDetails: React.FC<Props> = ({ property }) => {
+export const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property }) => {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">{property.title}</h1>

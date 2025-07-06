@@ -58,19 +58,60 @@ export const createProperty = async (req: AuthRequest, res: Response<ApiResponse
 export const listProperties = async (req: Request<{}, PaginatedApiResponse<PropertyResponse>, {}, PropertySearchQuery>, res: Response<PaginatedApiResponse<PropertyResponse>>) => {
   try {
     // Basic filtering (extend later)
-    const { city, state, type } = req.query as Record<string, string>;
+    const { city, state, type, page = 1, limit = 10 } = req.query;
 
     const where: Record<string, unknown> = {};
     if (city) where.city = city;
     if (state) where.state = state;
     if (type) where.type = type;
 
-    const properties = await prisma.property.findMany({ where });
+    const skip = (Number(page) - 1) * Number(limit);
 
-    res.json({ success: true, data: properties });
+    const [properties, total] = await Promise.all([
+      prisma.property.findMany({ 
+        where,
+        skip,
+        take: Number(limit),
+        include: {
+          agent: {
+            include: {
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
+        }
+      }),
+      prisma.property.count({ where })
+    ]);
+
+    const totalPages = Math.ceil(total / Number(limit));
+
+    res.json({ 
+      success: true, 
+      data: properties as PropertyResponse[],
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        totalPages
+      }
+    });
   } catch (err) {
     logger.error('List properties error', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ 
+      success: false,
+      data: [],
+      pagination: {
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0
+      }
+    });
   }
 };
 
