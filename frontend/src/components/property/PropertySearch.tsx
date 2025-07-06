@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Search, MapPin, Filter, SlidersHorizontal } from 'lucide-react';
 import { setFilters, searchProperties } from '../../store/slices/propertySlice';
 import { RootState } from '../../store';
-import { PropertyFilters } from './PropertyFilters';
+import PropertyFiltersComponent from './PropertyFilters';
+import { PropertyFilters } from '../../types/property';
 import { MapView } from '../map/MapView';
 import PropertyCard from './PropertyCard';
 
@@ -24,7 +25,7 @@ export const PropertySearch: React.FC = () => {
     dispatch(searchProperties({ ...filters, searchTerm }));
   };
 
-  const handleFilterChange = (newFilters: any) => {
+  const handleFilterChange = (newFilters: PropertyFilters) => {
     dispatch(setFilters(newFilters));
   };
 
@@ -63,7 +64,7 @@ export const PropertySearch: React.FC = () => {
         {/* Filters Panel */}
         {showFilters && (
           <div className="mt-4 border-t pt-4">
-            <PropertyFilters
+            <PropertyFiltersComponent
               filters={filters}
               onFiltersChange={handleFilterChange}
             />
