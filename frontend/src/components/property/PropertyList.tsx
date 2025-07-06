@@ -2,11 +2,11 @@ import React from 'react';
 import { Property } from '../../types/property';
 import PropertyCard from './PropertyCard';
 
-interface Props {
+interface PropertyListProps {
   properties: Property[];
 }
 
-export const PropertyList: React.FC<Props> = ({ properties }) => {
+export const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
   if (properties.length === 0) {
     return <div className="text-center text-gray-600">No properties found.</div>;
   }

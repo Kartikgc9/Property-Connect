@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { PropertyFilters as FiltersType, PropertyType } from '../../types/property';
 
-interface Props {
+interface PropertyFiltersProps {
   filters: FiltersType;
   onFiltersChange: (filters: FiltersType) => void;
 }
 
-export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) => {
+export const PropertyFilters: React.FC<PropertyFiltersProps> = ({ filters, onFiltersChange }) => {
   const [localFilters, setLocalFilters] = useState<FiltersType>(filters);
 
   const handleChange = <K extends keyof FiltersType>(field: K, value: FiltersType[K]) => {
