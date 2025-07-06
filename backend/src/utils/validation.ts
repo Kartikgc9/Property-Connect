@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const validateRegistration = (data: any) => {
+export const validateRegistration = (data: unknown) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
@@ -53,7 +53,7 @@ export const validateRegistration = (data: any) => {
   return schema.validate(data);
 };
 
-export const validateLogin = (data: any) => {
+export const validateLogin = (data: unknown) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
@@ -62,7 +62,7 @@ export const validateLogin = (data: any) => {
   return schema.validate(data);
 };
 
-export const validateProperty = (data: any) => {
+export const validateProperty = (data: unknown) => {
   const schema = Joi.object({
     title: Joi.string().min(5).max(200).required(),
     description: Joi.string().min(10).max(2000).required(),
@@ -92,7 +92,7 @@ export const validateProperty = (data: any) => {
   return schema.validate(data);
 };
 
-export const validatePropertyUpdate = (data: any) => {
+export const validatePropertyUpdate = (data: unknown) => {
   const schema = Joi.object({
     title: Joi.string().min(5).max(200).optional(),
     description: Joi.string().min(10).max(2000).optional(),
@@ -122,7 +122,7 @@ export const validatePropertyUpdate = (data: any) => {
   return schema.validate(data);
 };
 
-export const validateAgent = (data: any) => {
+export const validateAgent = (data: unknown) => {
   const schema = Joi.object({
     licenseNumber: Joi.string().required(),
     agency: Joi.string().required(),
@@ -135,7 +135,7 @@ export const validateAgent = (data: any) => {
   return schema.validate(data);
 };
 
-export const validateSearchFilters = (data: any) => {
+export const validateSearchFilters = (data: unknown) => {
   const schema = Joi.object({
     searchTerm: Joi.string().optional(),
     location: Joi.string().optional(),

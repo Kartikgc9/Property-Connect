@@ -59,7 +59,7 @@ export const listProperties = async (req: Request, res: Response) => {
     // Basic filtering (extend later)
     const { city, state, type } = req.query as Record<string, string>;
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (city) where.city = city;
     if (state) where.state = state;
     if (type) where.type = type;
