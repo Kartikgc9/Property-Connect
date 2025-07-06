@@ -4,10 +4,11 @@ import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 import { validateRegistration, validateLogin } from '../utils/validation';
 import { AuthRequest } from '../middleware/auth';
+import { RegisterRequest, LoginRequest, AuthResponse, ApiResponse } from '../types/api';
 
 const prisma = new PrismaClient();
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request<{}, ApiResponse<AuthResponse>, RegisterRequest>, res: Response<ApiResponse<AuthResponse>>) => {
   try {
     const { error } = validateRegistration(req.body);
     if (error) {
@@ -88,7 +89,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request<{}, ApiResponse<AuthResponse>, LoginRequest>, res: Response<ApiResponse<AuthResponse>>) => {
   try {
     const { error } = validateLogin(req.body);
     if (error) {

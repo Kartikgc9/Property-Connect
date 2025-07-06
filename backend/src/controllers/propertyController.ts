@@ -7,10 +7,11 @@ import { mapService } from '../services/mapService';
 import { validateProperty } from '../utils/validation';
 import { logger } from '../middleware/logger';
 import { AuthRequest } from '../middleware/auth';
+import { PropertyCreateRequest, PropertyUpdateRequest, PropertySearchQuery, PropertyResponse, ApiResponse, PaginatedApiResponse } from '../types/api';
 
 const prisma = new PrismaClient();
 
-export const createProperty = async (req: AuthRequest, res: Response) => {
+export const createProperty = async (req: AuthRequest, res: Response<ApiResponse<PropertyResponse>>) => {
   try {
     const { error } = validateProperty(req.body);
     if (error) {
@@ -54,7 +55,7 @@ export const createProperty = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const listProperties = async (req: Request, res: Response) => {
+export const listProperties = async (req: Request<{}, PaginatedApiResponse<PropertyResponse>, {}, PropertySearchQuery>, res: Response<PaginatedApiResponse<PropertyResponse>>) => {
   try {
     // Basic filtering (extend later)
     const { city, state, type } = req.query as Record<string, string>;

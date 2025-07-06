@@ -31,8 +31,8 @@ export const errorHandler = (
 
   // Mongoose validation error
   if (err.name === 'ValidationError' && 'errors' in err) {
-    const validationErrors = err as any;
-    const message = Object.values(validationErrors.errors).map((val: any) => 
+    const validationErrors = err as { errors: Record<string, { message: string }> };
+    const message = Object.values(validationErrors.errors).map((val) => 
       typeof val === 'object' && val !== null && 'message' in val ? val.message : 'Validation error'
     );
     error = { ...error, message: message.join(', '), statusCode: 400 };

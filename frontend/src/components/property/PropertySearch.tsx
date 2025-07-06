@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Search, MapPin, Filter, SlidersHorizontal } from 'lucide-react';
 import { setFilters, searchProperties } from '../../store/slices/propertySlice';
-import { RootState } from '../../store';
+import { RootState, AppDispatch } from '../../store';
 import PropertyFiltersComponent from './PropertyFilters';
 import { PropertyFilters } from '../../types/property';
 import { MapView } from '../map/MapView';
 import PropertyCard from './PropertyCard';
 
 export const PropertySearch: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { filters, isLoading, properties } = useSelector((state: RootState) => state.property);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);

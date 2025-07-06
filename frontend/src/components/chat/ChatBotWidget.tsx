@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMessage, toggleChat, setLoading } from '../../store/slices/chatSlice';
-import { RootState } from '../../store';
+import { RootState, AppDispatch } from '../../store';
 import axios from 'axios';
 import { Send, MessageCircle } from 'lucide-react';
 
 export const ChatBotWidget: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { messages, isOpen, isLoading } = useSelector((state: RootState) => state.chat);
   const [input, setInput] = useState('');
 
