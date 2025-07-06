@@ -8,6 +8,10 @@ import { PrismaClient } from '@prisma/client';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './middleware/logger';
 import routes from './routes';
+import dotenv from 'dotenv';
+
+// Load env vars early
+dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();

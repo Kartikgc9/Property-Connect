@@ -6,6 +6,7 @@ import { setFilters, searchProperties } from '../../store/slices/propertySlice';
 import { RootState } from '../../store';
 import { PropertyFilters } from './PropertyFilters';
 import { MapView } from '../map/MapView';
+import PropertyCard from './PropertyCard';
 
 export const PropertySearch: React.FC = () => {
   const dispatch = useDispatch();
