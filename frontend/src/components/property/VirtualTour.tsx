@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Loader2, ExternalLink, AlertCircle } from 'lucide-react';
 
-interface Props {
+interface VirtualTourProps {
   tourUrl: string;
   height?: number | string;
   title?: string;
 }
 
-export const VirtualTour: React.FC<Props> = ({ 
+export const VirtualTour: React.FC<VirtualTourProps> = ({ 
   tourUrl, 
   height = 500, 
   title = "Virtual Tour" 

@@ -31,11 +31,17 @@
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-router-dom": "^5.3.3",
-    "@types/react-redux": "^7.1.25",
+    "@types/react-redux": "^7.1.33",
+    "@types/axios": "^0.14.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/testing-library__react": "^10.2.0",
     "@vitest/ui": "^1.0.0",
+    "@types/vitest": "^0.0.1",
+    "@types/mapbox-gl": "^2.7.5",
+    "@types/react-map-gl": "^7.0.2",
+    "@types/date-fns": "^2.6.0",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.1.1",
@@ -48,13 +54,6 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vitest": "^1.0.0",
-    "jsdom": "^22.1.0",
-    "@types/testing-library__react": "^13.0.0",
-    "@types/vitest": "^0.0.1",
-    "@types/redux-toolkit": "^1.9.5",
-    "@types/mapbox-gl": "^2.7.5",
-    "@types/react-map-gl": "^7.0.2",
-    "@types/date-fns": "^2.6.0",
-    "@types/axios": "^1.6.0"
+    "jsdom": "^22.1.0"
   }
 }

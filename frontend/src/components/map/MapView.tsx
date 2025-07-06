@@ -4,12 +4,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Property } from '../../types/property';
 import MapMarker from './MapMarker';
 
-interface Props {
+interface MapViewProps {
   properties: Property[];
   height?: number | string;
 }
 
-export const MapView: React.FC<Props> = ({ properties, height = 600 }) => {
+export const MapView: React.FC<MapViewProps> = ({ properties, height = 600 }) => {
   const center = useMemo(() => {
     if (properties.length === 0) return { lat: 37.7749, lng: -122.4194 }; // default SF
     const [first] = properties;
