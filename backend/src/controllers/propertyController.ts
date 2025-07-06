@@ -18,7 +18,7 @@ export const createProperty = async (req: AuthRequest, res: Response) => {
     }
 
     // Make sure the request is coming from an authenticated Agent
-    const agentId = (req as any).user?.agentId;
+    const agentId = req.user?.agentId;
     if (!agentId) {
       return res.status(403).json({ error: 'Only agents can create properties' });
     }
@@ -36,16 +36,16 @@ export const createProperty = async (req: AuthRequest, res: Response) => {
     // Kick-off async verification on blockchain (non-blocking)
     blockchainService
       .verifyAndRecordTitle(property)
-      .catch((err: any) => logger.error('Blockchain verification failed', err));
+      .catch((err: unknown) => logger.error('Blockchain verification failed', err));
 
     // Optional: run AI analysis & local insights asynchronously
     aiService
       .generateRateAnalysis(property)
-      .catch((err: any) => logger.error('AI analysis failed', err));
+      .catch((err: unknown) => logger.error('AI analysis failed', err));
 
     mapService
       .enrichWithLocalInsights(property)
-      .catch((err: any) => logger.error('Local insights fetch failed', err));
+      .catch((err: unknown) => logger.error('Local insights fetch failed', err));
 
     res.status(201).json({ success: true, data: property });
   } catch (err) {
@@ -92,10 +92,10 @@ export const getPropertyById = async (req: Request, res: Response) => {
   }
 };
 
-export const updateProperty = async (req: Request, res: Response) => {
+export const updateProperty = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const agentId = (req as any).user?.agentId;
+    const agentId = req.user?.agentId;
 
     // Ensure ownership
     const property = await prisma.property.findUnique({ where: { id } });
@@ -118,10 +118,10 @@ export const updateProperty = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProperty = async (req: Request, res: Response) => {
+export const deleteProperty = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const agentId = (req as any).user?.agentId;
+    const agentId = req.user?.agentId;
 
     const property = await prisma.property.findUnique({ where: { id } });
     if (!property) {
