@@ -23,7 +23,7 @@ export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) =
         <input
           type="number"
           value={localFilters.priceMin || ''}
-          onChange={(e) => handleChange('priceMin', Number(e.target.value))}
+          onChange={(e) => handleChange('priceMin', Number((e as React.ChangeEvent<HTMLInputElement>).target.value))}
           className="w-full border px-3 py-2 rounded-lg"
         />
       </div>
@@ -32,7 +32,7 @@ export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) =
         <input
           type="number"
           value={localFilters.priceMax || ''}
-          onChange={(e) => handleChange('priceMax', Number(e.target.value))}
+          onChange={(e) => handleChange('priceMax', Number((e as React.ChangeEvent<HTMLInputElement>).target.value))}
           className="w-full border px-3 py-2 rounded-lg"
         />
       </div>
@@ -43,7 +43,7 @@ export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) =
         <select
           multiple
           value={localFilters.propertyType as any[] || []}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const options = Array.from(e.target.selectedOptions).map((o) => o.value as PropertyType);
             handleChange('propertyType', options);
           }}
