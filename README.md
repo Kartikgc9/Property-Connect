@@ -1,372 +1,373 @@
 # PropertyConnect
 
-PropertyConnect is a SaaS real-estate platform that connects trusted agents with buyers/renters.  It combines blockchain-backed title verification, hyper-local insights, AI search assistance and collaborative tools in a modern, cloud-native stack.
-
----
-
-## Tech Stack
-
-| Layer      | Tech                                             |
-|------------|--------------------------------------------------|
-| Frontend   | React 18 + TypeScript, Vite, Tailwind, Mapbox GL |
-| State      | Redux Toolkit, React-Query                       |
-| Backend    | Node 18, Express, TypeScript, Prisma             |
-| Database   | PostgreSQL, Redis cache                          |
-| Blockchain | Ethereum via Ethers.js                           |
-| AI         | OpenAI Chat + ML Rate analysis stubs             |
-| Infra      | Docker, docker-compose, GitHub Actions CI        |
-
----
-
-## Local Development
-
-```bash
-# 1. clone
-$ git clone https://github.com/yourorg/propertyconnect && cd propertyconnect
-
-# 2. env
-$ cp env.example .env
-$ cp frontend/.env.example frontend/.env
-$ cp backend/.env.example backend/.env
-# add API keys & DB creds
-
-# 3. start stack
-$ docker-compose up --build  # http://localhost:3000
-```
-
-### Without Docker (hot-reload)
-```bash
-# backend
-cd backend && npm i && npx prisma generate && npm run dev
-# frontend
-cd ../frontend && npm i && npm run dev
-```
-
----
-
-## Testing
-
-```bash
-# backend API / integration tests (Jest + Supertest)
-cd backend && npm test
-
-# frontend component tests (Vitest + Testing-Library)
-cd ../frontend && npm test
-```
-
----
-
-## Deployment
-
-* Production containers are built via the supplied Dockerfiles.
-* CI pipeline in `.github/workflows/ci.yml` runs lint, type-check and tests on every PR merge to `main`.
-* Example production deploy:
-
-```bash
-$ docker-compose -f docker-compose.prod.yml up -d --build
-```
-
----
-
-## Folder Structure (trimmed)
-```
-backend/          # Express API & Prisma schema
-frontend/         # React + Tailwind UI
-.github/          # CI pipelines
-infrastructure/   # K8s / Terraform (future)
-ai/               # ML & chatbot helpers
-blockchain/       # Smart-contract utilities
-```
-
----
-
-## Contributing
-Pull requests are welcome – please ensure new code includes relevant unit or integration tests.
+PropertyConnect is a comprehensive SaaS real-estate platform that connects trusted agents with buyers/renters. It combines blockchain-backed title verification, hyper-local insights, AI search assistance, and collaborative tools in a modern, cloud-native stack.
 
 ## 🚀 Features
 
-- **Property Listings**: Browse and search properties with advanced filters
-- **Agent Management**: Connect with verified real estate professionals
-- **Blockchain Verification**: Property authenticity verified on blockchain
-- **AI Insights**: Market analysis and property recommendations
-- **Interactive Maps**: Location-based property discovery
-- **Real-time Chat**: Communication between buyers and agents
-- **Virtual Tours**: 360° property viewing experience
-- **Mobile Responsive**: Works seamlessly on all devices
+### Core Platform Features
+- **Property Listings**: Advanced search with filters, map integration, and detailed property information
+- **Agent Management**: Verified real estate professionals with performance metrics and ratings
+- **Buyer Dashboard**: Personalized property recommendations and saved searches
+- **Real-time Communication**: Built-in messaging system for agent-buyer interactions
 
-## 🏗️ Architecture
-
-- **Frontend**: React + TypeScript + Vite + Tailwind CSS
-- **Backend**: Node.js + Express + TypeScript + Prisma
-- **Database**: PostgreSQL
-- **Cache**: Redis
-- **Blockchain**: Ethereum (Solidity)
-- **AI Services**: Python + Flask
-- **Deployment**: Docker + Kubernetes
-
-## 📁 Project Structure
-
-```
-propertyconnect/
-├── frontend/                 # React frontend application
-├── backend/                  # Node.js API server
-├── blockchain/              # Smart contracts and blockchain integration
-├── ai/                      # AI services and machine learning
-├── infrastructure/          # Docker, Kubernetes, and deployment configs
-└── docs/                   # Documentation
-```
+### Advanced Features
+- **Blockchain Verification**: Property title verification using Ethereum for transparency and fraud prevention
+- **AI-Powered Analysis**: Machine learning-driven property rate analysis and market insights
+- **Hyper-Local Data**: School ratings, crime statistics, commute times, and infrastructure data
+- **Virtual Tours**: 360° property viewing with embedded Matterport integration
+- **Agent Collaboration**: Tools for co-listing properties and sharing leads
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- React 18 with TypeScript
-- Redux Toolkit for state management
-- React Router for navigation
-- Tailwind CSS for styling
-- Lucide React for icons
-- Mapbox GL for maps
-- React Hook Form for forms
+| Component | Technology |
+|-----------|------------|
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS |
+| **State Management** | Redux Toolkit, React Query |
+| **Backend** | Node.js, Express, TypeScript |
+| **Database** | PostgreSQL with Prisma ORM |
+| **Cache** | Redis |
+| **Blockchain** | Ethereum via Ethers.js |
+| **AI/ML** | OpenAI API, TensorFlow.js (planned) |
+| **Maps** | Mapbox GL JS |
+| **Testing** | Jest (Backend), Vitest (Frontend), Supertest |
+| **Infrastructure** | Docker, GitHub Actions CI/CD |
 
-### Backend
-- Node.js with Express
-- TypeScript for type safety
-- Prisma ORM for database management
-- JWT for authentication
-- bcrypt for password hashing
-- Joi for validation
-- Socket.io for real-time features
+## 🏗️ Project Structure
 
-### Database
-- PostgreSQL for primary data
-- Redis for caching and sessions
-
-### Blockchain
-- Ethereum smart contracts
-- Web3.js for blockchain interaction
-- Truffle for development
-
-### AI Services
-- Python with Flask
-- OpenAI API integration
-- Natural language processing
-- Market analysis algorithms
+```
+propertyconnect/
+├── backend/                 # Express API server
+│   ├── src/
+│   │   ├── controllers/     # Route handlers
+│   │   ├── services/        # Business logic (AI, blockchain, maps)
+│   │   ├── middleware/      # Auth, logging, error handling
+│   │   ├── routes/          # API routes
+│   │   └── utils/           # Validation, helpers
+│   ├── tests/               # API integration tests
+│   └── prisma/              # Database schema and migrations
+├── frontend/                # React application
+│   ├── src/
+│   │   ├── components/      # Reusable React components
+│   │   ├── pages/           # Route components
+│   │   ├── store/           # Redux store and slices
+│   │   ├── services/        # API client
+│   │   └── types/           # TypeScript definitions
+│   └── tests/               # Component tests
+├── ai/                      # AI/ML services (Python/Flask)
+├── blockchain/              # Smart contracts and utilities
+├── infrastructure/          # Docker, K8s, deployment configs
+└── .github/                 # CI/CD workflows
+```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
-- Python 3.8+
-- Docker and Docker Compose
-- PostgreSQL
-- Redis
+- **Node.js** 18+ 
+- **npm** 8+
+- **Docker** & Docker Compose
+- **PostgreSQL** 15+
+- **Redis** 7+
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/propertyconnect.git
+   git clone https://github.com/yourorg/propertyconnect.git
    cd propertyconnect
    ```
 
-2. **Install dependencies**
-   ```bash
-   # Install root dependencies
-   npm install
-   
-   # Install frontend dependencies
-   cd frontend && npm install
-   
-   # Install backend dependencies
-   cd ../backend && npm install
-   
-   # Install AI service dependencies
-   cd ../ai && pip install -r requirements.txt
-   ```
-
-3. **Environment Setup**
+2. **Environment Setup**
    ```bash
    # Copy environment files
    cp env.example .env
-   cp frontend/.env.example frontend/.env
-   cp backend/.env.example backend/.env
-   cp ai/.env.example ai/.env
    
-   # Edit environment variables
+   # Edit with your API keys and database credentials
    nano .env
+   ```
+
+3. **Install Dependencies**
+   ```bash
+   # Backend
+   cd backend
+   npm install
+   
+   # Frontend
+   cd ../frontend
+   npm install
    ```
 
 4. **Database Setup**
    ```bash
-   # Start PostgreSQL and Redis
-   docker-compose up postgres redis -d
-   
-   # Run database migrations
    cd backend
-   npm run db:generate
-   npm run db:migrate
+   
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Run migrations
+   npx prisma db push
+   
+   # Seed database (optional)
    npm run db:seed
    ```
 
-5. **Start Development Servers**
-   ```bash
-   # Start all services
-   npm run dev
-   
-   # Or start individually:
-   # Frontend (http://localhost:3000)
-   cd frontend && npm run dev
-   
-   # Backend (http://localhost:5000)
-   cd backend && npm run dev
-   
-   # AI Service (http://localhost:8000)
-   cd ai && python app.py
-   ```
-
-## 🐳 Docker Deployment
-
 ### Development
+
+#### Using Docker (Recommended)
 ```bash
-# Build and start all services
+# Start all services
 docker-compose up --build
 
-# Start specific services
-docker-compose up frontend backend postgres redis
+# Services will be available at:
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+# PostgreSQL: localhost:5432
+# Redis: localhost:6379
 ```
 
-### Production
+#### Manual Setup
 ```bash
-# Build production images
-docker-compose -f docker-compose.prod.yml build
+# Terminal 1 - Backend
+cd backend
+npm run dev
 
-# Deploy to production
-docker-compose -f docker-compose.prod.yml up -d
+# Terminal 2 - Frontend  
+cd frontend
+npm run dev
+
+# Terminal 3 - Database (if not using Docker)
+# Start PostgreSQL and Redis manually
 ```
-
-## 📊 API Documentation
-
-### Authentication Endpoints
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get current user
-- `PUT /api/auth/profile` - Update profile
-- `POST /api/auth/logout` - User logout
-
-### Property Endpoints
-- `GET /api/properties` - List properties
-- `GET /api/properties/:id` - Get property details
-- `POST /api/properties` - Create property
-- `PUT /api/properties/:id` - Update property
-- `DELETE /api/properties/:id` - Delete property
-- `GET /api/properties/search` - Search properties
-
-### Agent Endpoints
-- `GET /api/agents` - List agents
-- `GET /api/agents/:id` - Get agent details
-- `POST /api/agents` - Create agent profile
-- `PUT /api/agents/:id` - Update agent profile
-
-### Chat Endpoints
-- `GET /api/chat/messages` - Get chat messages
-- `POST /api/chat/send` - Send message
-- `GET /api/chat/history/:sessionId` - Get chat history
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-#### Frontend (.env)
-```env
-VITE_API_URL=http://localhost:5000
-VITE_MAPBOX_TOKEN=your-mapbox-token
-```
+Create a `.env` file in the root directory:
 
-#### Backend (.env)
 ```env
+# Database
 DATABASE_URL=postgresql://user:password@localhost:5432/propertyconnect
 REDIS_URL=redis://localhost:6379
+
+# Authentication
 JWT_SECRET=your-super-secret-jwt-key
 JWT_EXPIRES_IN=7d
-```
 
-#### AI Service (.env)
-```env
+# Blockchain (Ethereum)
+ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/your-project-id
+PRIVATE_KEY=your-wallet-private-key
+CONTRACT_ADDRESS=your-contract-address
+
+# APIs
+GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+MAPBOX_ACCESS_TOKEN=your-mapbox-token
+
+# AI Services
 OPENAI_API_KEY=your-openai-api-key
-FLASK_ENV=development
+
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# Cloud Storage
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_S3_BUCKET=propertyconnect-uploads
+
+# Development
+NODE_ENV=development
+PORT=5000
+FRONTEND_URL=http://localhost:3000
 ```
 
 ## 🧪 Testing
 
+### Backend Tests
 ```bash
-# Frontend tests
-cd frontend && npm test
-
-# Backend tests
-cd backend && npm test
+cd backend
 
 # Run all tests
 npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Run specific test file
+npm test -- auth.test.ts
 ```
 
-## 📦 Build for Production
-
+### Frontend Tests
 ```bash
-# Build frontend
-cd frontend && npm run build
+cd frontend
 
-# Build backend
+# Run component tests
+npm test
+
+# Run with UI
+npm run test:ui
+
+# Run with coverage
+npm run test:coverage
+```
+
+### Integration Tests
+```bash
+# Run full test suite
+npm run test:e2e
+```
+
+## � Build & Deployment
+
+### Development Build
+```bash
+# Backend
 cd backend && npm run build
 
-# Build all
+# Frontend
+cd frontend && npm run build
+```
+
+### Production Deployment
+
+#### Docker Production
+```bash
+# Build production images
+docker-compose -f docker-compose.prod.yml build
+
+# Deploy
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+#### Manual Deployment
+```bash
+# Build applications
 npm run build
+
+# Start production servers
+cd backend && npm start
+cd frontend && npm run preview
 ```
 
-## 🚀 Deployment
+## � API Documentation
 
-### Kubernetes
-```bash
-# Apply Kubernetes manifests
-kubectl apply -f infrastructure/k8s/
+### Authentication Endpoints
+- `POST /api/auth/register` - User registration (agent/buyer)
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user profile
+- `PUT /api/auth/me` - Update user profile
+- `POST /api/auth/logout` - User logout
 
-# Check deployment status
-kubectl get pods
-kubectl get services
-```
+### Property Endpoints
+- `GET /api/properties` - List properties with filters
+- `GET /api/properties/:id` - Get property details
+- `POST /api/properties` - Create property (agents only)
+- `PUT /api/properties/:id` - Update property (agents only)
+- `DELETE /api/properties/:id` - Delete property (agents only)
 
-### Docker Swarm
-```bash
-# Deploy to Docker Swarm
-docker stack deploy -c docker-compose.prod.yml propertyconnect
-```
+### Agent Endpoints
+- `GET /api/agents` - List verified agents
+- `GET /api/agents/:id` - Get agent profile and metrics
+- `POST /api/agents/collaborate` - Create collaboration request
+
+### Chat Endpoints
+- `POST /api/chat/message` - Send message to AI assistant
+- `GET /api/chat/history` - Get chat history
+
+### Blockchain Endpoints
+- `POST /api/blockchain/verify` - Verify property on blockchain
+- `GET /api/blockchain/status/:txHash` - Get verification status
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make your changes**
+4. **Add tests for new functionality**
+5. **Ensure all tests pass**
+   ```bash
+   npm test
+   ```
+6. **Commit your changes**
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+7. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+8. **Open a Pull Request**
 
-## 📝 License
+### Development Guidelines
+
+- **Code Style**: Follow ESLint and Prettier configurations
+- **Testing**: Maintain >80% test coverage for new features
+- **TypeScript**: Use strict typing, avoid `any` types
+- **Commits**: Use conventional commit messages
+- **Documentation**: Update README and API docs for new features
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**TypeScript Errors**
+```bash
+# Install missing type declarations
+cd backend && npm install --save-dev @types/node @types/express
+cd frontend && npm install --save-dev @types/react @types/react-dom
+```
+
+**Database Connection Issues**
+```bash
+# Check PostgreSQL is running
+docker-compose ps
+
+# Reset database
+npx prisma db push --force-reset
+```
+
+**Build Failures**
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Port Conflicts**
+```bash
+# Check what's using the port
+lsof -i :3000
+lsof -i :5000
+
+# Kill processes or change ports in .env
+```
+
+## � License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: [docs.propertyconnect.com](https://docs.propertyconnect.com)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/propertyconnect/issues)
-- **Discord**: [Join our community](https://discord.gg/propertyconnect)
 
 ## 🙏 Acknowledgments
 
 - [React](https://reactjs.org/) - Frontend framework
-- [Express](https://expressjs.com/) - Backend framework
+- [Express](https://expressjs.com/) - Backend framework  
 - [Prisma](https://www.prisma.io/) - Database ORM
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Mapbox](https://www.mapbox.com/) - Maps and location services
 - [OpenAI](https://openai.com/) - AI services
+- [Ethers.js](https://ethers.org/) - Ethereum library
+
+## 🆘 Support
+
+- **Documentation**: [docs.propertyconnect.com](https://docs.propertyconnect.com)
+- **Issues**: [GitHub Issues](https://github.com/yourorg/propertyconnect/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourorg/propertyconnect/discussions)
+- **Email**: support@propertyconnect.com
 
 ---
 
-**PropertyConnect** - Connecting buyers with trusted agents through blockchain-verified properties and AI-powered insights. 
+**PropertyConnect** - Revolutionizing real estate through blockchain verification, AI insights, and seamless agent-buyer connections. 
