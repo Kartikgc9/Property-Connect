@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 import redis
 import json
 from datetime import datetime
@@ -13,8 +13,10 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Configure OpenAI
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# Configure OpenAI client
+client = OpenAI(
+    api_key=os.getenv('OPENAI_API_KEY')
+)
 
 # Configure Redis
 redis_client = redis.Redis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379'))
@@ -59,8 +61,8 @@ def analyze_property():
         5. Recommendations
         """
         
-        # Get AI analysis
-        response = openai.ChatCompletion.create(
+        # Get AI analysis using new OpenAI client
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a real estate market analyst. Provide detailed, professional analysis of properties."},
@@ -112,7 +114,7 @@ def chat():
         Please provide a helpful response about real estate.
         """
         
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -162,7 +164,7 @@ def market_insights():
         5. Future outlook
         """
         
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a real estate market analyst. Provide detailed market insights."},
@@ -216,7 +218,7 @@ def property_recommendations():
         5. Investment tips
         """
         
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a real estate advisor. Provide personalized property recommendations."},
@@ -232,6 +234,61 @@ def property_recommendations():
             'success': True,
             'data': {
                 'recommendations': recommendations,
+                'timestamp': datetime.utcnow().isoformat()
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/property-valuation', methods=['POST'])
+def property_valuation():
+    """Get AI-powered property valuation"""
+    try:
+        data = request.get_json()
+        property_data = data.get('property', {})
+        
+        if not property_data:
+            return jsonify({'error': 'No property data provided'}), 400
+        
+        prompt = f"""
+        Provide a detailed property valuation analysis for:
+        
+        Property Details:
+        - Type: {property_data.get('type', 'Unknown')}
+        - Location: {property_data.get('address', 'Unknown')}
+        - Bedrooms: {property_data.get('bedrooms', 'Unknown')}
+        - Bathrooms: {property_data.get('bathrooms', 'Unknown')}
+        - Area: {property_data.get('area', 'Unknown')} sqft
+        - Year Built: {property_data.get('yearBuilt', 'Unknown')}
+        - Lot Size: {property_data.get('lotSize', 'Unknown')}
+        - Amenities: {', '.join(property_data.get('amenities', []))}
+        
+        Please provide:
+        1. Estimated market value range
+        2. Factors affecting valuation
+        3. Comparable properties analysis
+        4. Market conditions impact
+        5. Investment potential score (1-10)
+        """
+        
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a certified property appraiser with expertise in real estate valuation."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000,
+            temperature=0.7
+        )
+        
+        valuation = response.choices[0].message.content
+        
+        return jsonify({
+            'success': True,
+            'data': {
+                'valuation': valuation,
+                'property_id': property_data.get('id'),
                 'timestamp': datetime.utcnow().isoformat()
             }
         })

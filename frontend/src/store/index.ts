@@ -3,18 +3,18 @@ import { authApi } from './api/authApi';
 import { propertyApi } from './api/propertyApi';
 import { agentApi } from './api/agentApi';
 import { chatApi } from './api/chatApi';
-import authSlice from './slices/authSlice';
-import propertySlice from './slices/propertySlice';
-import agentSlice from './slices/agentSlice';
-import chatSlice from './slices/chatSlice';
+import authReducer from './slices/authSlice';
+import propertyReducer from './slices/propertySlice';
+import agentReducer from './slices/agentSlice';
+import chatReducer from './slices/chatSlice';
 import mapSlice from './slices/mapSlice';
 
 export const store = configureStore({
   reducer: {
-    auth: authSlice,
-    property: propertySlice,
-    agent: agentSlice,
-    chat: chatSlice,
+    auth: authReducer,
+    property: propertyReducer,
+    agent: agentReducer,
+    chat: chatReducer,
     map: mapSlice,
     [authApi.reducerPath]: authApi.reducer,
     [propertyApi.reducerPath]: propertyApi.reducer,
@@ -22,7 +22,11 @@ export const store = configureStore({
     [chatApi.reducerPath]: chatApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
+    }).concat(
       authApi.middleware,
       propertyApi.middleware,
       agentApi.middleware,
