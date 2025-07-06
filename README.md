@@ -1,6 +1,87 @@
-# PropertyConnect - Real Estate Platform
+# PropertyConnect
 
-A comprehensive real estate platform that connects buyers with agents, featuring blockchain verification, AI-powered insights, and modern web technologies.
+PropertyConnect is a SaaS real-estate platform that connects trusted agents with buyers/renters.  It combines blockchain-backed title verification, hyper-local insights, AI search assistance and collaborative tools in a modern, cloud-native stack.
+
+---
+
+## Tech Stack
+
+| Layer      | Tech                                             |
+|------------|--------------------------------------------------|
+| Frontend   | React 18 + TypeScript, Vite, Tailwind, Mapbox GL |
+| State      | Redux Toolkit, React-Query                       |
+| Backend    | Node 18, Express, TypeScript, Prisma             |
+| Database   | PostgreSQL, Redis cache                          |
+| Blockchain | Ethereum via Ethers.js                           |
+| AI         | OpenAI Chat + ML Rate analysis stubs             |
+| Infra      | Docker, docker-compose, GitHub Actions CI        |
+
+---
+
+## Local Development
+
+```bash
+# 1. clone
+$ git clone https://github.com/yourorg/propertyconnect && cd propertyconnect
+
+# 2. env
+$ cp env.example .env
+$ cp frontend/.env.example frontend/.env
+$ cp backend/.env.example backend/.env
+# add API keys & DB creds
+
+# 3. start stack
+$ docker-compose up --build  # http://localhost:3000
+```
+
+### Without Docker (hot-reload)
+```bash
+# backend
+cd backend && npm i && npx prisma generate && npm run dev
+# frontend
+cd ../frontend && npm i && npm run dev
+```
+
+---
+
+## Testing
+
+```bash
+# backend API / integration tests (Jest + Supertest)
+cd backend && npm test
+
+# frontend component tests (Vitest + Testing-Library)
+cd ../frontend && npm test
+```
+
+---
+
+## Deployment
+
+* Production containers are built via the supplied Dockerfiles.
+* CI pipeline in `.github/workflows/ci.yml` runs lint, type-check and tests on every PR merge to `main`.
+* Example production deploy:
+
+```bash
+$ docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+---
+
+## Folder Structure (trimmed)
+```
+backend/          # Express API & Prisma schema
+frontend/         # React + Tailwind UI
+.github/          # CI pipelines
+infrastructure/   # K8s / Terraform (future)
+ai/               # ML & chatbot helpers
+blockchain/       # Smart-contract utilities
+```
+
+---
+
+## Contributing
+Pull requests are welcome – please ensure new code includes relevant unit or integration tests.
 
 ## 🚀 Features
 
