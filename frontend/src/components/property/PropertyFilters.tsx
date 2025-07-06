@@ -9,7 +9,7 @@ interface Props {
 export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) => {
   const [localFilters, setLocalFilters] = useState<FiltersType>(filters);
 
-  const handleChange = (field: keyof FiltersType, value: any) => {
+  const handleChange = <K extends keyof FiltersType>(field: K, value: FiltersType[K]) => {
     const updated = { ...localFilters, [field]: value };
     setLocalFilters(updated);
     onFiltersChange(updated);
@@ -42,7 +42,7 @@ export const PropertyFilters: React.FC<Props> = ({ filters, onFiltersChange }) =
         <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
         <select
           multiple
-          value={localFilters.propertyType as any[] || []}
+          value={(localFilters.propertyType ?? []) as PropertyType[]}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const options = Array.from(e.target.selectedOptions).map((o) => o.value as PropertyType);
             handleChange('propertyType', options);
