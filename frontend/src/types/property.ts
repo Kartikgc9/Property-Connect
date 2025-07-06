@@ -42,8 +42,33 @@ export interface Property {
   lotSize?: number;
   isVerified: boolean;
   blockchainTxHash?: string;
-  localInsights?: any;
-  aiAnalysis?: any;
+  localInsights?: {
+    walkScore?: number;
+    nearbySchools?: Array<{
+      name: string;
+      rating: number;
+      distance: number;
+    }>;
+    crimeRate?: number;
+    averageCommute?: number;
+    nearbyAmenities?: string[];
+  };
+  aiAnalysis?: {
+    marketTrend: 'RISING' | 'STABLE' | 'DECLINING';
+    priceEstimate: {
+      min: number;
+      max: number;
+      confidence: number;
+    };
+    investmentScore: number;
+    riskLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+    recommendations: string[];
+    comparableProperties?: Array<{
+      id: string;
+      price: number;
+      similarity: number;
+    }>;
+  };
   agentId: string;
   agent: {
     id: string;

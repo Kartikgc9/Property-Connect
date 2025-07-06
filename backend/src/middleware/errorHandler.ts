@@ -24,14 +24,17 @@ export const errorHandler = (
   }
 
   // Mongoose duplicate key
-  if (err.name === 'MongoError' && (err as any).code === 11000) {
+  if (err.name === 'MongoError' && 'code' in err && (err as any).code === 11000) {
     const message = 'Duplicate field value entered';
     error = { ...error, message, statusCode: 400 };
   }
 
   // Mongoose validation error
-  if (err.name === 'ValidationError') {
-    const message = Object.values((err as any).errors).map((val: any) => val.message);
+  if (err.name === 'ValidationError' && 'errors' in err) {
+    const validationErrors = err as any;
+    const message = Object.values(validationErrors.errors).map((val: any) => 
+      typeof val === 'object' && val !== null && 'message' in val ? val.message : 'Validation error'
+    );
     error = { ...error, message: message.join(', '), statusCode: 400 };
   }
 

@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Property } from './property';
 
 export interface Agent {
   id: string;
@@ -19,9 +20,9 @@ export interface Agent {
 }
 
 export interface AgentProfile extends Agent {
-  properties: any[];
+  properties: Property[];
   metrics: AgentMetric[];
-  collaborations: any[];
+  collaborations: Collaboration[];
 }
 
 export interface AgentMetric {
