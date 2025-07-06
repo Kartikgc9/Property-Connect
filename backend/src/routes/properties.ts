@@ -1,22 +1,21 @@
 import express from 'express';
-import { authenticateToken, requireAgent } from '../middleware/auth';
-import {
-  createProperty,
-  listProperties,
-  getPropertyById,
-  updateProperty,
-  deleteProperty,
-} from '../controllers/propertyController';
+import { PropertyController } from '../controllers/propertyController';
+import { auth } from '../middleware/auth';
+import { validateProperty, validatePropertyUpdate } from '../middleware/validation';
 
 const router = express.Router();
 
 // Public routes
-router.get('/', listProperties);
-router.get('/:id', getPropertyById);
+router.get('/', PropertyController.getProperties);
+router.get('/:id', PropertyController.getPropertyById);
+router.post('/search', PropertyController.searchProperties);
 
-// Protected routes (Agent only)
-router.post('/', authenticateToken, requireAgent, createProperty);
-router.put('/:id', authenticateToken, requireAgent, updateProperty);
-router.delete('/:id', authenticateToken, requireAgent, deleteProperty);
+// Protected routes (require authentication)
+router.post('/', auth, validateProperty, PropertyController.createProperty);
+router.put('/:id', auth, validatePropertyUpdate, PropertyController.updateProperty);
+router.delete('/:id', auth, PropertyController.deleteProperty);
+
+// Agent-specific routes
+router.get('/agent/my-properties', auth, PropertyController.getAgentProperties);
 
 export default router;

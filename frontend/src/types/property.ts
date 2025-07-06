@@ -18,12 +18,12 @@ export interface Property {
   id: string;
   title: string;
   description: string;
-  type: PropertyType;
-  status: PropertyStatus;
+  type: 'HOUSE' | 'APARTMENT' | 'CONDO' | 'TOWNHOUSE' | 'LAND' | 'COMMERCIAL';
+  status: 'ACTIVE' | 'PENDING' | 'SOLD' | 'INACTIVE';
   price: number;
   currency: string;
-  bedrooms?: number;
-  bathrooms?: number;
+  bedrooms: number;
+  bathrooms: number;
   area: number;
   areaUnit: string;
   address: string;
@@ -31,7 +31,7 @@ export interface Property {
   state: string;
   zipCode: string;
   country: string;
-  coordinates: {
+  coordinates?: {
     lat: number;
     lng: number;
   };
@@ -45,31 +45,47 @@ export interface Property {
   localInsights?: any;
   aiAnalysis?: any;
   agentId: string;
-  agent: {
+  agent?: {
     id: string;
-    user: {
-      firstName: string;
-      lastName: string;
-    };
+    licenseNumber: string;
     agency: string;
     rating: number;
+    user: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone?: string;
+      avatar?: string;
+    };
   };
   createdAt: string;
   updatedAt: string;
 }
 
 export interface PropertyFilters {
-  searchTerm?: string;
-  location?: string;
-  priceMin?: number;
-  priceMax?: number;
-  propertyType?: PropertyType[];
-  bedrooms?: number;
-  bathrooms?: number;
-  areaMin?: number;
-  areaMax?: number;
-  amenities?: string[];
-  yearBuilt?: number;
+  query?: string;
+  type?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBedrooms?: number;
+  maxBedrooms?: number;
+  minBathrooms?: number;
+  maxBathrooms?: number;
+  minArea?: number;
+  maxArea?: number;
+  city?: string;
+  state?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
+}
+
+export interface PropertySearchResult {
+  properties: Property[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
 }
