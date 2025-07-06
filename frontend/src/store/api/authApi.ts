@@ -1,11 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { AuthUser, LoginCredentials, RegisterData } from '../../types/user';
 
+// Extend ImportMeta interface for Vite environment variables
+declare global {
+  interface ImportMeta {
+    readonly env: {
+      readonly VITE_API_URL?: string;
+      readonly VITE_MAPBOX_TOKEN?: string;
+    };
+  }
+}
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState }: { getState: () => any }) => {
       const token = localStorage.getItem('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
@@ -16,7 +26,7 @@ export const authApi = createApi({
   tagTypes: ['Auth'],
   endpoints: (builder) => ({
     login: builder.mutation<AuthUser, LoginCredentials>({
-      query: (credentials) => ({
+      query: (credentials: LoginCredentials) => ({
         url: '/auth/login',
         method: 'POST',
         body: credentials,
@@ -24,7 +34,7 @@ export const authApi = createApi({
       invalidatesTags: ['Auth'],
     }),
     register: builder.mutation<AuthUser, RegisterData>({
-      query: (userData) => ({
+      query: (userData: RegisterData) => ({
         url: '/auth/register',
         method: 'POST',
         body: userData,
@@ -49,7 +59,7 @@ export const authApi = createApi({
       }),
     }),
     updateProfile: builder.mutation<AuthUser, Partial<AuthUser>>({
-      query: (updates) => ({
+      query: (updates: Partial<AuthUser>) => ({
         url: '/auth/profile',
         method: 'PUT',
         body: updates,

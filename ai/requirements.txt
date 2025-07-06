@@ -14,3 +14,7 @@ torch==2.1.0
 gunicorn==21.2.0
 python-socketio==5.9.0
 eventlet==0.33.3
+pytest==7.4.3
+black==23.12.1
+flake8==6.1.0
+mypy==1.7.1

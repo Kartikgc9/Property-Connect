@@ -21,22 +21,22 @@ const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setCenter: (state, action: PayloadAction<MapCoordinates>) => {
+    setCenter: (state: MapState, action: PayloadAction<MapCoordinates>) => {
       state.center = action.payload;
     },
-    setZoom: (state, action: PayloadAction<number>) => {
+    setZoom: (state: MapState, action: PayloadAction<number>) => {
       state.zoom = action.payload;
     },
-    setSelectedProperty: (state, action: PayloadAction<string | null>) => {
+    setSelectedProperty: (state: MapState, action: PayloadAction<string | null>) => {
       state.selectedProperty = action.payload;
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    setLoading: (state: MapState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
+    setError: (state: MapState, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    resetMap: (state) => {
+    resetMap: (state: MapState) => {
       state.center = { lat: 40.7128, lng: -74.0060 };
       state.zoom = 10;
       state.selectedProperty = null;

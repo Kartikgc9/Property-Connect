@@ -17,9 +17,17 @@ export interface User {
   updatedAt: string;
 }
 
-export interface AuthUser extends User {
-  token?: string;
-  refreshToken?: string;
+export interface AuthUser {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  avatar?: string;
+  role: UserRole;
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface LoginCredentials {
@@ -32,8 +40,8 @@ export interface RegisterData {
   password: string;
   firstName: string;
   lastName: string;
-  phone?: string;
   role: UserRole;
+  phone?: string;
 }
 
 export interface AuthState {

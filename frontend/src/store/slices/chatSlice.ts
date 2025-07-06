@@ -26,28 +26,28 @@ const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    addMessage: (state, action: PayloadAction<Message>) => {
+    addMessage: (state: ChatState, action: PayloadAction<Message>) => {
       state.messages.push(action.payload);
     },
-    setMessages: (state, action: PayloadAction<Message[]>) => {
+    setMessages: (state: ChatState, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
     },
-    clearMessages: (state) => {
+    clearMessages: (state: ChatState) => {
       state.messages = [];
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    setLoading: (state: ChatState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
+    setError: (state: ChatState, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    toggleChat: (state) => {
+    toggleChat: (state: ChatState) => {
       state.isOpen = !state.isOpen;
     },
-    openChat: (state) => {
+    openChat: (state: ChatState) => {
       state.isOpen = true;
     },
-    closeChat: (state) => {
+    closeChat: (state: ChatState) => {
       state.isOpen = false;
     },
   },

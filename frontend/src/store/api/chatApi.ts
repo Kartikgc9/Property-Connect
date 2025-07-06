@@ -8,11 +8,21 @@ interface Message {
   type: 'text' | 'image' | 'document';
 }
 
+// Extend ImportMeta interface for Vite environment variables
+declare global {
+  interface ImportMeta {
+    readonly env: {
+      readonly VITE_API_URL?: string;
+      readonly VITE_MAPBOX_TOKEN?: string;
+    };
+  }
+}
+
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState }: { getState: () => any }) => {
       const token = localStorage.getItem('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
@@ -27,7 +37,7 @@ export const chatApi = createApi({
       providesTags: ['Chat'],
     }),
     sendMessage: builder.mutation<Message, { content: string; type?: string }>({
-      query: (message) => ({
+      query: (message: { content: string; type?: string }) => ({
         url: '/chat/send',
         method: 'POST',
         body: message,
@@ -35,7 +45,7 @@ export const chatApi = createApi({
       invalidatesTags: ['Chat'],
     }),
     getChatHistory: builder.query<Message[], string>({
-      query: (sessionId) => `/chat/history/${sessionId}`,
+      query: (sessionId: string) => `/chat/history/${sessionId}`,
       providesTags: (result, error, sessionId) => [{ type: 'Chat', id: sessionId }],
     }),
   }),

@@ -15,7 +15,14 @@ export interface Agent {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  user?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    avatar?: string;
+  };
 }
 
 export interface AgentProfile extends Agent {
@@ -38,12 +45,15 @@ export interface AgentMetric {
 }
 
 export interface AgentFilters {
-  searchTerm?: string;
-  location?: string;
+  search?: string;
   specialties?: string[];
-  rating?: number;
-  experience?: number;
+  serviceAreas?: string[];
+  minExperience?: number;
+  maxExperience?: number;
+  minRating?: number;
   isActive?: boolean;
+  page?: number;
+  limit?: number;
 }
 
 export interface Collaboration {
@@ -56,4 +66,14 @@ export interface Collaboration {
   status: 'PENDING' | 'ACCEPTED' | 'DECLINED' | 'COMPLETED';
   createdAt: string;
   updatedAt: string;
+}
+
+export interface AgentMetrics {
+  propertiesListed: number;
+  propertiesSold: number;
+  totalRevenue: number;
+  avgResponseTime: number;
+  customerSatisfaction: number;
+  month: number;
+  year: number;
 }

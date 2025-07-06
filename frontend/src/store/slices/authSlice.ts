@@ -12,43 +12,43 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginStart: (state) => {
+    loginStart: (state: AuthState) => {
       state.isLoading = true;
       state.error = null;
     },
-    loginSuccess: (state, action: PayloadAction<AuthUser>) => {
+    loginSuccess: (state: AuthState, action: PayloadAction<AuthUser>) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
     },
-    loginFailure: (state, action: PayloadAction<string>) => {
+    loginFailure: (state: AuthState, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    registerStart: (state) => {
+    registerStart: (state: AuthState) => {
       state.isLoading = true;
       state.error = null;
     },
-    registerSuccess: (state, action: PayloadAction<AuthUser>) => {
+    registerSuccess: (state: AuthState, action: PayloadAction<AuthUser>) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
     },
-    registerFailure: (state, action: PayloadAction<string>) => {
+    registerFailure: (state: AuthState, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    logout: (state) => {
+    logout: (state: AuthState) => {
       state.user = null;
       state.isAuthenticated = false;
       state.error = null;
     },
-    clearError: (state) => {
+    clearError: (state: AuthState) => {
       state.error = null;
     },
-    updateUser: (state, action: PayloadAction<Partial<AuthUser>>) => {
+    updateUser: (state: AuthState, action: PayloadAction<Partial<AuthUser>>) => {
       if (state.user) {
         state.user = { ...state.user, ...action.payload };
       }
