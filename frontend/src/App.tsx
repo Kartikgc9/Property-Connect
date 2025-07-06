@@ -17,6 +17,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import ChatBotWidget from './components/chat/ChatBotWidget';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
               </main>
               <Footer />
               <ChatBot />
+              <ChatBotWidget />
             </div>
           </Router>
         </AuthProvider>
