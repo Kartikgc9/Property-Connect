@@ -6,10 +6,11 @@ import { aiService } from '../services/aiService';
 import { mapService } from '../services/mapService';
 import { validateProperty } from '../utils/validation';
 import { logger } from '../middleware/logger';
+import { AuthRequest } from '../middleware/auth';
 
 const prisma = new PrismaClient();
 
-export const createProperty = async (req: Request, res: Response) => {
+export const createProperty = async (req: AuthRequest, res: Response) => {
   try {
     const { error } = validateProperty(req.body);
     if (error) {
